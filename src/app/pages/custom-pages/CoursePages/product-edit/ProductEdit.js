@@ -66,6 +66,8 @@ export function ProductEdit({
   // 
   //create course
   function createCourse(course){
+    console.log("course creating: ")
+    console.log(course)
     fetch(`${process.env.REACT_APP_WEBSERVER_API_URL}/course`,{
       method: 'POST',
       headers: {
@@ -91,6 +93,8 @@ export function ProductEdit({
   // 
   //update a course
   function updateCourse(course){
+    console.log("course updating: ")
+    console.log(course)
     fetch(`${process.env.REACT_APP_WEBSERVER_API_URL}/course`,{
       method: 'PUT',
       headers: {
