@@ -75,6 +75,7 @@ export function ProductEdit({
     })
     .then(res => res.json()).then((result) => {
       if(!result.status){
+        //console.log("false create");
         setMessages([{message:"Tạo khóa học không thành công", variant:"danger"}])
       }
       else{
