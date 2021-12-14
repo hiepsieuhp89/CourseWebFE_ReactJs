@@ -6,6 +6,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Input, Select } from "../../../../../_metronic/_partials/controls";
+import {Alert} from "react-bootstrap"
 // import {
 //   AVAILABLE_COLORS,
 //   AVAILABLE_MANUFACTURES,
@@ -22,6 +23,7 @@ const ProductEditSchema = Yup.object().shape({
 });
 
 export function ProductEditForm({
+  validate_errors,
   product,
   btnRef,
   saveProduct,
@@ -67,8 +69,8 @@ export function ProductEditForm({
                 </div>
                 <div className="col-lg-4">
                   <Select name="actor" label="Actor">
-                    {[{name:"Xuân Tùng"},{name:"Phương Linh"}].map((actor, id) => (
-                      <option key={id} value={actor.name}>
+                    {[{name:"--Select--"},{name:"Xuân Tùng"},{name:"Phương Linh"}].map((actor, id) => (
+                      <option selected={id==0} key={id} value={actor.name}>
                         {actor.name}
                       </option>
                     ))}
@@ -83,6 +85,10 @@ export function ProductEditForm({
                   className="form-control"
                 />
               </div>
+              {validate_errors.map((message, id)=>(
+              <Alert key={id} variant={message.variant}>
+                <p>{message.message}</p>
+              </Alert>))}
               <button
                 type="submit"
                 style={{ display: "none" }}
