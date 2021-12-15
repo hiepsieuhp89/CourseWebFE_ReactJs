@@ -215,7 +215,7 @@ export function ProductsTable(props) {
     },
     renderer: row => (
       <>
-        <div>{ReactHtmlParser(row.description)}</div>
+        <div style={{backgroundColor: "rgb(239 239 239)",padding:"20px"}} >{ReactHtmlParser(row.description)}</div>
       </>
     )
   };
