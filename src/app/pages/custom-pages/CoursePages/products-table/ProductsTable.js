@@ -2,6 +2,10 @@
 // DOCS: https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/
 // STORYBOOK: https://react-bootstrap-table.github.io/react-bootstrap-table2/storybook/index.html
 import React, { useEffect, useMemo, useState } from "react";
+import ReactHtmlParser from 'react-html-parser'; 
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
+import Icon from '@material-ui/core/Icon';
 //import { useHistory, useLocation } from "react-router-dom";
 //import queryString from "querystring";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -127,23 +131,34 @@ export function ProductsTable(props) {
       dataField: "code",
       text: "Course code",
       sort: true,
+      formatter: (cell, row, rowindex) => {
+        return (
+          <span class="label label-lg label-primary label-inline w-100">
+            {cell}
+          </span>
+        );
+      },
       sortCaret: sortCaret,
     },
     {
       dataField: "name",
       text: "Course name",
       sort: true,
+      formatter: (cell, row, rowindex) => {
+        return <span class="font-weight-bold">{cell}</span>;
+      },
       sortCaret: sortCaret,
     },
     {
       dataField: "year",
       text: "Year",
       sort: true,
+      formatter: (cell, row, rowindex) => {
+        return (
+          <span class="label label-default label-inline w-100">{cell}</span>
+        );
+      },
       sortCaret: sortCaret,
-    },
-    {
-      dataField: "description",
-      text: "Description",
     },
     {
       dataField: "actor",
@@ -167,6 +182,43 @@ export function ProductsTable(props) {
       },
     },
   ];
+  const expandRow = {
+    showExpandColumn: true,
+    expandColumnPosition: 'right',
+    expandHeaderColumnRenderer: ({ isAnyExpands }) => {
+      if (isAnyExpands) {
+        return (
+          <Icon color="secondary">
+            remove_circle
+          </Icon>
+          );
+      }
+      return (
+      <Icon color="secondary">
+        add_circle
+      </Icon>
+      );
+    },
+    expandColumnRenderer: ({ expanded }) => {
+      if (expanded) {
+        return (
+          <Icon color="secondary">
+            remove_circle
+          </Icon>
+          );
+      }
+      return (
+      <Icon color="secondary">
+        add_circle
+      </Icon>
+      );
+    },
+    renderer: row => (
+      <>
+        <div>{ReactHtmlParser(row.description)}</div>
+      </>
+    )
+  };
   // Table pagination properties
   const paginationOptions = {
     custom: true,
@@ -187,6 +239,7 @@ export function ProductsTable(props) {
         keyField="id"
         data={entities === null ? [] : entities}
         columns={columns}
+        expandRow={ expandRow }
         //sdefaultSorted={uiHelpers.defaultSorted}
         //defaultSorted={{dataField: "id", order: "desc"}}
         //onTableChange={getHandlerTableChange(productsUIProps.setQueryParams)}
