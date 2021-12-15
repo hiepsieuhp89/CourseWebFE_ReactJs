@@ -91,7 +91,7 @@ export function ProductEditForm({
                           <>
                               <CKEditor
                                   editor={ ClassicEditor }
-                                  data="<p>Type description</p>"
+                                  data={product.description}
                                   onReady={ editor => {
                                       // You can store the "editor" and use when it is needed.
                                       console.log( 'Editor is ready to use!', editor );
