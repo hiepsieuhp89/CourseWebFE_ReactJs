@@ -127,18 +127,27 @@ export function ProductsTable(props) {
       dataField: "code",
       text: "Course code",
       sort: true,
+      formatter: (cell, row, rowindex)=>{
+        return (<span class="label label-lg label-primary label-inline w-100">{cell}</span>)
+      },
       sortCaret: sortCaret,
     },
     {
       dataField: "name",
       text: "Course name",
       sort: true,
+      formatter: (cell, row, rowindex)=>{
+        return (<span class="font-weight-bold">{cell}</span>)
+      },
       sortCaret: sortCaret,
     },
     {
       dataField: "year",
       text: "Year",
       sort: true,
+      formatter: (cell, row, rowindex)=>{
+        return (<span class="label label-default label-inline w-100">{cell}</span>)
+      },
       sortCaret: sortCaret,
     },
     {
