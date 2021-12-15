@@ -3,9 +3,11 @@
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 import { Input, Select } from "../../../../../_metronic/_partials/controls";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {Alert} from "react-bootstrap"
 // import {
 //   AVAILABLE_COLORS,
@@ -20,6 +22,7 @@ const ProductEditSchema = Yup.object().shape({
     .min(2, "Minimum 2 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Name is required"),
+  description: Yup.string().required("Description is required"),
 });
 
 export function ProductEditForm({
@@ -80,9 +83,33 @@ export function ProductEditForm({
               <div className="form-group">
                 <label>Description</label>
                 <Field
-                  name="description"
                   as="textarea"
+                  name="description"
                   className="form-control"
+                  render={({ field, form }: FieldProps<number | string>) => {
+                      return (
+                          <>
+                              <CKEditor
+                                  editor={ ClassicEditor }
+                                  data="<p>Type description</p>"
+                                  onReady={ editor => {
+                                      // You can store the "editor" and use when it is needed.
+                                      console.log( 'Editor is ready to use!', editor );
+                                  } }
+                                  onChange={ ( event, editor ) => {
+                                      const data = editor.getData()
+                                      form.setFieldValue(field.name, data)
+                                  } }
+                                  onBlur={ ( event, editor ) => {
+                                      console.log( 'Blur.', editor );
+                                  } }
+                                  onFocus={ ( event, editor ) => {
+                                      console.log( 'Focus.', editor );
+                                  } }
+                              />
+                          </>
+                      )
+                  }}
                 />
               </div>
               {validate_errors.map((message, id)=>(
